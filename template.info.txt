@@ -1,0 +1,7 @@
+base     simpl
+author   Kenan Akinci
+email    hey@kenan.fyi
+date     2026-09-30
+name     Simpl
+desc     Minimal, but powerful template based on the default one. It should be used with Command Palette and Panel Navigation plugins.
+url      https://github.com/kenandotfyi/dokuwiki-template-simpl
