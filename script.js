@@ -110,6 +110,50 @@ jQuery(function(){
 })();
 
 
+// MoaiEditor renders its preview HTML after the initial page-load pass that
+// the KaTeX plugin performs. Re-render when the preview content changes.
+(function renderKatexInMoaiPreview() {
+    if (typeof JSINFO === 'undefined' || JSINFO.ACT !== 'edit') return;
+
+    const katex = JSINFO.plugins && JSINFO.plugins.katex && JSINFO.plugins.katex.options;
+    if (!katex) return;
+
+    const options = {
+        output: katex.output,
+        delimiters: katex.delimiters,
+        throwOnError: katex.throwonerror,
+        errorColor: katex['error-color'],
+        macros: katex.macros
+    };
+
+    let lastPreviewText = null;
+
+    function renderPreviewWhenChanged() {
+        const preview = document.getElementById('moaied__preview_content');
+        if (!preview || typeof renderMathInElement !== 'function') return;
+
+        const text = preview.textContent;
+        if (text === lastPreviewText) return;
+        lastPreviewText = text;
+
+        // Avoid repeatedly parsing content when the preview has no TeX.
+        if (!text.includes('$') && !text.includes('\\(') && !text.includes('\\[')) return;
+
+        try {
+            renderMathInElement(preview, options);
+        } catch (error) {
+            lastPreviewText = null;
+            console.error('simpl: KaTeX rendering in the Moai preview failed', error);
+        }
+    }
+
+    // The preview may be created or replaced asynchronously by MoaiEditor.
+    // Polling the text signature catches initial content and later updates.
+    renderPreviewWhenChanged();
+    window.setInterval(renderPreviewWhenChanged, 500);
+})();
+
+
 (function () {
     let lastText = '';
 
