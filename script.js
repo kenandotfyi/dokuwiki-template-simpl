@@ -88,6 +88,27 @@ jQuery(function(){
     });
 });
 
+// Start MoaiEditor automatically when the normal DokuWiki edit action opens.
+// MoaiEditor creates its own start button asynchronously once it has found
+// the template's editor elements, so wait for that button and invoke it.
+(function startMoaiEditorOnEditPage() {
+    if (typeof JSINFO === 'undefined' || JSINFO.ACT !== 'edit') return;
+
+    const startButton = document.getElementById('moaied-start-button');
+    if (startButton) {
+        startButton.click();
+        return;
+    }
+
+    const observer = new MutationObserver(() => {
+        const button = document.getElementById('moaied-start-button');
+        if (!button) return;
+        observer.disconnect();
+        button.click();
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+})();
+
 
 (function () {
     let lastText = '';
