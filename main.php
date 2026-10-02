@@ -78,6 +78,8 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
                             <?php tpl_includeFile('pagefooter.html') ?>
                         </div>
 
+                        <?php include(__DIR__ . '/pagengspace.php'); ?>
+
                         <div class="page-backlinks-header">Backlinks</div>
                         <div class="page-backlinks">
                             <?php
@@ -110,6 +112,8 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
                 </div>
 
                 <?php if ($ACT === 'show') : ?>
+                <?php include(__DIR__ . '/pagengspace.php'); ?>
+
                 <div class="page-backlinks-header">Backlinks</div>
                 <div class="page-backlinks">
                     <?php

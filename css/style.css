@@ -363,7 +363,8 @@ body > div.plugin-preview {
 
 /* backlinks section */
 
-.page-backlinks {
+.page-backlinks,
+.page-nspages {
     border: 1px solid black;
     padding: 10px;
     margin-bottom: 10px;
@@ -373,7 +374,23 @@ body > div.plugin-preview {
     }
 }
 
-.page-backlinks-header {
+/* DokuWiki's renderer adds empty paragraph wrappers around the nspages block. */
+.page-nspages > p {
+    display: none;
+}
+
+.page-nspages .plugin_nspages > ul {
+    padding-left: 0;
+}
+
+.page-backlinks ul.idx li,
+.page-backlinks ul.idx li.open,
+.page-backlinks ul.idx li.closed {
+    list-style-image: none;
+}
+
+.page-backlinks-header,
+.page-nspages-header {
     border-top:1px solid black;
     border-left:1px solid black;
     border-right:1px solid black;
