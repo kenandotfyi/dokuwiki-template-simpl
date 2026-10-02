@@ -118,13 +118,13 @@ html, body {
 .topBanner {
     display: flex;
     justify-content: space-between;
-    background: black;
-    border-bottom: 1px solid black;
+    background: grey;
+    border: 1px solid black;
     color: white;
     padding-left: 10px;
     padding-right: 4px;
-    top: 10px;
     position: sticky;
+    top: 29px;
     z-index: 110;
     font-size: 12px;
 }
@@ -132,7 +132,7 @@ html, body {
 .topBannerEmpty {
     background: white;
     top: 0px;
-    height:10px;
+    height:20px;
     position: sticky;
     z-index: 111;
 }
@@ -141,8 +141,16 @@ html, body {
     margin: 0;
     width: 90ch;
 }
+
+/* Admin and full media-manager views need more room than regular wiki pages. */
+#dokuwiki__site:has(> #dokuwiki__top.mode_admin),
+#dokuwiki__site:has(> #dokuwiki__top.mode_media) {
+    width: 96vw;
+    max-width: 150ch;
+}
+
 #dokuwiki__site {
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 #dokuwiki__site .site{
@@ -275,10 +283,17 @@ body > div.plugin-preview {
 
 
 
-/*section for bottom header*/
+/* Header styling */
 
 #dokuwiki__header {
+    padding: 0px;
+    position: sticky;
+    top: 0px;
     padding-top: 6px;
+    padding-bottom: 6px;
+    z-index: 1111;
+    background-color: white;
+
 }
 
 #dokuwiki__header .headings{
@@ -362,8 +377,10 @@ body > div.plugin-preview {
     border-top:1px solid black;
     border-left:1px solid black;
     border-right:1px solid black;
-    background: black;
+    background: grey;
     color: white;
+    line-height: 1.2;
+    padding: 0px;
     padding-left: 10px;
 }
 

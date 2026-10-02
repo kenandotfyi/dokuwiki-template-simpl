@@ -29,6 +29,7 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
         echo ($showSidebar) ? 'showSidebar' : ''; ?> <?php echo ($hasSidebar) ? 'hasSidebar' : ''; ?>"
         data-panelnav-start-id="<?php echo hsc($conf['start']); ?>">
 
+        <?php include(__DIR__ . '/tpl_header.php') ?>
 
 
         <div class="wrapper group">
@@ -137,7 +138,6 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
             </nav>
         </div><!-- /wrapper -->
 
-        <?php include(__DIR__ . '/tpl_header.php') ?>
     </div></div><!-- /site -->
 
     <div class="no"><?php tpl_indexerWebBug() /* provide DokuWiki housekeeping, required in all templates */ ?></div>
