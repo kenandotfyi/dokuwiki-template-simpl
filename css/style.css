@@ -112,6 +112,8 @@ html, body {
     font-weight: 400;
     font-style: normal;
     font-size: 13px;
+    hyphens: auto;
+    text-rendering: optimizeLegibility;
 }
 
 
@@ -139,7 +141,11 @@ html, body {
 
 #dokuwiki__site {
     margin: 0;
-    width: 90ch;
+    width: var(--content-column-width);
+}
+
+:root {
+    --content-column-width: 50rem;
 }
 
 /* Admin and full media-manager views need more room than regular wiki pages. */
