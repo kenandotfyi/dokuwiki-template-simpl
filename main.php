@@ -26,7 +26,8 @@ $showSidebar = $hasSidebar && ($ACT == 'show');
 
 <body>
     <div id="dokuwiki__site"><div id="dokuwiki__top" class="site <?php echo tpl_classes(); ?> <?php
-        echo ($showSidebar) ? 'showSidebar' : ''; ?> <?php echo ($hasSidebar) ? 'hasSidebar' : ''; ?>"
+        echo ($showSidebar) ? 'showSidebar' : ''; ?> <?php echo ($hasSidebar) ? 'hasSidebar' : ''; ?> <?php
+        echo ($ACT === 'show' && $ID === $conf['start']) ? 'panelnav-start-page' : ''; ?>"
         data-panelnav-start-id="<?php echo hsc($conf['start']); ?>">
 
         <?php include(__DIR__ . '/tpl_header.php') ?>
