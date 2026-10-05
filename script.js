@@ -33,25 +33,16 @@ function tpl_dokuwiki_mobile(){
     jQuery('html').removeClass(device_classes).addClass(device_class);
 
     // handle some layout changes based on change in device
-    var $handle = jQuery('#dokuwiki__aside h3.toggle');
     var $toc = jQuery('#dw__toc h3');
 
     if (device_class == 'desktop') {
         // reset for desktop mode
-        if($handle.length) {
-            $handle[0].setState(1);
-            $handle.hide();
-        }
         if($toc.length) {
             $toc[0].setState(1);
         }
     }
     if (device_class.match(/mobile/)){
-        // toc and sidebar hiding
-        if($handle.length) {
-            $handle.show();
-            $handle[0].setState(-1);
-        }
+        // toc hiding
         if($toc.length) {
             $toc[0].setState(-1);
         }
@@ -60,7 +51,6 @@ function tpl_dokuwiki_mobile(){
 
 jQuery(function(){
     var resizeTimer;
-    dw_page.makeToggle('#dokuwiki__aside h3.toggle','#dokuwiki__aside div.content');
 
     tpl_dokuwiki_mobile();
     jQuery(window).on('resize',
@@ -70,16 +60,12 @@ jQuery(function(){
         }
     );
 
-    // increase sidebar length to match content (desktop mode only)
-    var sidebar_height = jQuery('.desktop #dokuwiki__aside').height();
+    // increase content height to fit page tools (desktop mode only)
     var pagetool_height = jQuery('.desktop #dokuwiki__pagetools ul:first').height();
-    // pagetools div has no height; ul has a height
-    var content_min = Math.max(sidebar_height || 0, pagetool_height || 0);
-
     var content_height = jQuery('#dokuwiki__content div.page').height();
-    if(content_min && content_min > content_height) {
+    if(pagetool_height && pagetool_height > content_height) {
         var $content = jQuery('#dokuwiki__content div.page');
-        $content.css('min-height', content_min);
+        $content.css('min-height', pagetool_height);
     }
 
     // blur when clicked

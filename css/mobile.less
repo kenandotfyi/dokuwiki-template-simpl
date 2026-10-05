@@ -19,62 +19,6 @@
     z-index: 1; /* for detecting media queries in JavaScript (see script.js) */
 }
 
-/* structure */
-#dokuwiki__aside {
-    width: 100%;
-    float: none;
-    margin-bottom: 1.5em;
-}
-
-#dokuwiki__aside > .pad,
-[dir=rtl] #dokuwiki__aside > .pad {
-    margin: 0 0 .5em;
-    /* style like .page */
-    background: @ini_background;
-    color: inherit;
-    border: 1px solid #eee;
-    box-shadow: 0 0 .5em @ini_text_alt;
-    border-radius: 2px;
-    padding: 1em;
-    margin-bottom: .5em;
-}
-
-#dokuwiki__aside h3.toggle {
-    font-size: 1em;
-
-    &.closed {
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
-    &.open {
-        border-bottom: 1px solid @ini_border;
-    }
-}
-
-.showSidebar #dokuwiki__content {
-    float: none;
-    margin-left: 0;
-    width: 100%;
-
-    > .pad {
-        margin-left: 0;
-    }
-}
-
-[dir=rtl] .showSidebar #dokuwiki__content,
-[dir=rtl] .showSidebar #dokuwiki__content > .pad {
-    margin-right: 0;
-}
-
-/* preview */
-.dokuwiki.hasSidebar div.preview {
-    border-right: none;
-}
-
-[dir=rtl] .dokuwiki.hasSidebar div.preview {
-    border-left: none;
-}
-
 /* toc */
 #dw__toc {
     float: none;
@@ -92,8 +36,7 @@
 .dokuwiki h3.toggle {
     padding: 0 .5em .5em 0;
 }
-#dw__toc > div,
-#dokuwiki__aside div.content {
+#dw__toc > div {
     padding: .2em 0 .5em;
 }
 
@@ -109,9 +52,6 @@
 /* push pagetools closer to content */
 #dokuwiki__pagetools {
     top: 0;
-}
-.showSidebar #dokuwiki__pagetools {
-    top: 3.5em;
 }
 
 
@@ -158,10 +98,6 @@ body {
     > .site {
         padding: 0 .5em;
     }
-}
-
-#dokuwiki__aside {
-    margin-bottom: 0;
 }
 
 #dokuwiki__header {
@@ -271,7 +207,6 @@ body {
 
 /*____________ content ____________*/
 
-#dokuwiki__aside > .pad,
 .dokuwiki div.page {
     padding: .5em;
 }

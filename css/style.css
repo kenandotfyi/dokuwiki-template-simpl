@@ -123,7 +123,7 @@ html, body {
     background: grey;
     border: 1px solid black;
     color: white;
-    padding-left: 10px;
+    padding-left: 6px;
     padding-right: 4px;
     position: sticky;
     top: 29px;
@@ -131,12 +131,13 @@ html, body {
     font-size: 12px;
 }
 
-.topBannerEmpty {
-    background: white;
-    top: 0px;
-    height:20px;
-    position: sticky;
-    z-index: 111;
+.pagedates {
+    background: #ACACAC;
+    font-size: 12px;
+    padding-left: 6px;
+    border-left: 1px solid black;
+    border-bottom: 1px solid #636363;
+    border-right: 1px solid black;
 }
 
 #dokuwiki__site {
@@ -195,6 +196,8 @@ html, body {
   border-right: 1px solid black;
   border-bottom: 1px solid black;
   border-radius: 0px;
+  margin-bottom: 5px;
+  padding: 16px;
 }
 
 
@@ -267,13 +270,6 @@ a.urlextern::after {
 
 hr {
     border-top: 1px solid #ccc;
-}
-
-body > div.plugin-preview {
-    box-shadow: 4px 4px 0px lightgrey;
-    border: 1px solid darkgrey;
-    background: white;
-    font-size: 85%;
 }
 
 .admonition {
@@ -373,7 +369,7 @@ body > div.plugin-preview {
 .page-nspages {
     border: 1px solid black;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 
     ul {
         margin: 0;

@@ -1,0 +1,209 @@
+.infinitepanels-wrapper,
+.infinitepanels-viewport {
+    width: 100%;
+    max-width: 100%;
+}
+
+.infinitepanels-viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.infinitepanels-viewport::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.infinitepanels-panes {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    width: max-content;
+    max-width: none;
+    padding-right: 1rem;
+}
+
+.infinitepanels-pane {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* Keep Simpl's desktop page column the same width as an InfinitePanels pane. */
+@media (min-width: 1200px) {
+    #dokuwiki__site:has(> #dokuwiki__top.mode_show) {
+        width: var(--infinitepanels-panel-width, 50rem);
+    }
+
+    /* The single-page width rule above has higher specificity than the
+       generic active-layout rule below. Expand the site once panes are open
+       so the viewport can show multiple fixed-width pages side by side. */
+    body.infinitepanels-active #dokuwiki__site:has(> #dokuwiki__top.mode_show) {
+        width: 100vw;
+        max-width: none;
+    }
+}
+
+body.infinitepanels-active #dokuwiki__site {
+    box-sizing: border-box;
+    width: 100vw;
+    max-width: none;
+}
+
+.infinitepanels-active #dokuwiki__content,
+.infinitepanels-active #dokuwiki__content > .pad.group,
+.infinitepanels-active .infinitepanels-wrapper,
+.infinitepanels-active .infinitepanels-viewport {
+    width: 100%;
+    max-width: none !important;
+}
+
+.infinitepanels-active .infinitepanels-panes {
+    align-items: stretch;
+}
+
+.infinitepanels-active .infinitepanels-pane {
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: var(--infinitepanels-panel-width, 50rem);
+}
+
+.infinitepanels-active .infinitepanels-pane > .pad.group {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+}
+
+.infinitepanels-active .infinitepanels-pane .page.group {
+    max-width: none !important;
+}
+
+.infinitepanels-active .infinitepanels-pane .topBanner {
+    top: 0;
+}
+
+body.infinitepanels-ready #dokuwiki__pagetools {
+    display: none;
+}
+
+.dokuwiki a.wikilink1.infinitepanels-open-page-link,
+.dokuwiki a.wikilink2.infinitepanels-open-page-link {
+    background-color: lemonchiffon;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+
+.infinitepanels-actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 4px;
+}
+
+.infinitepanels-header-right {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 12px;
+}
+
+.infinitepanels-pane-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 110;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border-bottom: 1px solid currentColor;
+    background: Canvas;
+}
+
+.infinitepanels-pane-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.infinitepanels-actions button,
+.infinitepanels-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+    line-height: 1.2;
+    padding: 0 3px;
+}
+
+.infinitepanels-actions a {
+    text-decoration: none;
+}
+
+.infinitepanels-actions svg {
+    width: 1em;
+    height: 1em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.infinitepanels-actions button:hover,
+.infinitepanels-actions a:hover {
+    background: white;
+    color: black;
+}
+
+body.infinitepanels-active .infinitepanels-actions a:hover {
+    background: white !important;
+    background-color: white !important;
+    color: black !important;
+}
+
+.infinitepanels-error {
+    padding: 1rem;
+}
+
+@media (min-width: 1200px) {
+    html:has(body.infinitepanels-active) {
+        overflow: clip;
+    }
+
+    body.infinitepanels-active {
+        height: 100vh;
+        overflow: clip;
+    }
+
+    body.infinitepanels-active .infinitepanels-viewport {
+        height: var(--infinitepanels-viewport-height);
+    }
+
+    body.infinitepanels-active .infinitepanels-panes {
+        height: 100%;
+    }
+
+    body.infinitepanels-active .infinitepanels-pane {
+        height: 100%;
+        max-height: 100%;
+        min-height: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    body.infinitepanels-active .infinitepanels-pane::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+}

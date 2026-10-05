@@ -1,130 +1,79 @@
 <?php
 
 /**
- * DokuWiki Default Template 2012
+ * Simpl 2026 / Derived from DokuWiki default template
  *
- * @link     http://dokuwiki.org/template
- * @author   Anika Henke <anika@selfthinker.org>
- * @author   Clarence Lee <clarencedglee@gmail.com>
+ * @link     https://github.com/kenandotfyi/dokuwiki-template-simpl
+ * @author   Kenan Akinci
  * @license  GPL 2 (http://www.gnu.org/licenses/gpl.html)
  */
 
 if (!defined('DOKU_INC')) die(); /* must be run from within DokuWiki */
 
-$hasSidebar = page_findnearest($conf['sidebar']);
-$showSidebar = $hasSidebar && ($ACT == 'show');
+$panesEnabled = ($ACT === 'show') && (bool) tpl_getConf('panes_enabled', 1);
+$paneWidth = tpl_getConf('pane_width', 45);
+if (!is_numeric($paneWidth) || (float)$paneWidth < 25 || (float)$paneWidth > 100) {
+    $paneWidth = 45;
+}
+$paneWidth = rtrim(rtrim(number_format((float)$paneWidth, 2, '.', ''), '0'), '.');
+
+// Only load adapters that are both supported by Simpl and enabled in its configuration.
+$paneAdapters = ['preview', 'prettyphoto', 'annotations', 'katex'];
 ?><!DOCTYPE html>
 <html lang="<?php echo $conf['lang'] ?>" dir="<?php echo $lang['direction'] ?>" class="no-js">
 <head>
     <meta charset="utf-8" />
     <title><?php tpl_pagetitle() ?> [<?php echo strip_tags($conf['title']) ?>]</title>
     <?php tpl_metaheaders() ?>
+    <style>:root{--infinitepanels-panel-width:<?php echo hsc($paneWidth); ?>rem;}</style>
+    <link rel="stylesheet" href="<?php echo tpl_basedir(); ?>panes/panels.css" />
+    <?php if ($panesEnabled) : ?>
+    <script>window.InfinitePanelsConfig = <?php echo json_encode([
+        'pageId' => $ID,
+        'startPageId' => $conf['start'],
+    ], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>;</script>
+    <?php foreach ($paneAdapters as $adapter) : ?>
+        <?php if (tpl_getConf('adapter_' . $adapter, 0)) : ?>
+    <script src="<?php echo tpl_basedir(); ?>panes/adapters/<?php echo hsc($adapter); ?>.js"></script>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <script src="<?php echo tpl_basedir(); ?>panes/panels.js"></script>
+    <?php endif; ?>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <?php echo tpl_favicon(['favicon', 'mobile']) ?>
     <?php tpl_includeFile('meta.html') ?>
 </head>
 
 <body>
-    <div id="dokuwiki__site"><div id="dokuwiki__top" class="site <?php echo tpl_classes(); ?> <?php
-        echo ($showSidebar) ? 'showSidebar' : ''; ?> <?php echo ($hasSidebar) ? 'hasSidebar' : ''; ?> <?php
-        echo ($ACT === 'show' && $ID === $conf['start']) ? 'panelnav-start-page' : ''; ?>"
-        data-panelnav-start-id="<?php echo hsc($conf['start']); ?>">
+    <div id="dokuwiki__site"><div id="dokuwiki__top" class="site <?php echo tpl_classes(); ?>">
 
         <?php include(__DIR__ . '/tpl_header.php') ?>
 
 
         <div class="wrapper group">
-
-          <?php if ($showSidebar) : ?>
-           <!-- ********** ASIDE ********** -->
-                <nav id="dokuwiki__aside" aria-label="<?php echo $lang['sidebar']
-                ?>"><div class="pad aside include group">
-
-                    <h3 class="toggle"><?php echo $lang['sidebar'] ?></h3>
-                    <div class="content"><div class="group">
-                        <?php tpl_flush() ?>
-
-                        <?php tpl_includeFile('sidebarheader.html') ?>
-                        <?php tpl_include_page($conf['sidebar'], true, true) ?>
-                        <?php tpl_includeFile('sidebarfooter.html') ?>
-                    </div></div>
-                </div></nav><!-- /aside -->
-            <?php endif; ?>
-
-
             <!-- ********** CONTENT ********** -->
             <main id="dokuwiki__content"><div class="pad group">
                 <?php html_msgarea() ?>
-
-                <?php
-                // Only use the two-panel layout on real content pages -
-                // not search results, and not the wiki's start/home page.
-                $isPanelPage = ($ACT === 'show') && ($ID !== $conf['start']);
-                ?>
-
-                <?php if ($isPanelPage) : ?>
-                <div class="panelnav-wrapper">
-
-                    <!-- LEFT PANEL: the page actually being viewed -->
-                    <div id="panelnav-left" class="panelnav-panel">
-                        <?php tpl_includeFile('pageheader.php') ?>
-                        <?php tpl_includeFile('pagebreadcrumbs.php') ?>
-                        <div class="page group">
-                            <?php tpl_flush() ?>
-
-                            <!-- wikipage start -->
-                            <?php tpl_content() ?>
-                            <!-- wikipage stop -->
-
-                            <?php tpl_includeFile('pagefooter.html') ?>
-                        </div>
-
-                        <?php include(__DIR__ . '/pagengspace.php'); ?>
-
-                        <div class="page-backlinks-header">Backlinks</div>
-                        <div class="page-backlinks">
-                            <?php
-                            global $ID;
-                            $renderInfo = [];
-                            echo p_render('xhtml', p_get_instructions('{{backlinks>.}}'), $renderInfo);
-                            ?>
-                        </div>
-                    </div>
-
-                    <!-- RIGHT PANEL: filled by panelnav's JS when a link is clicked -->
-                    <div id="panelnav-right" class="panelnav-panel panelnav-hidden">
-                        <div id="panelnav-right-content"></div>
-                    </div>
-
-                </div>
-                <?php else : ?>
-
-                <!-- Normal single-column layout: search results, start page, etc. -->
                 <?php tpl_includeFile('pageheader.php') ?>
+                <?php tpl_includeFile('pagedates.php') ?>
                 <?php tpl_includeFile('pagebreadcrumbs.php') ?>
                 <div class="page group">
                     <?php tpl_flush() ?>
-
                     <!-- wikipage start -->
                     <?php tpl_content() ?>
                     <!-- wikipage stop -->
-
-                    <?php tpl_includeFile('pagefooter.html') ?>
                 </div>
 
                 <?php if ($ACT === 'show') : ?>
-                <?php include(__DIR__ . '/pagengspace.php'); ?>
+                <?php include(__DIR__ . '/subpages.php'); ?>
 
                 <div class="page-backlinks-header">Backlinks</div>
                 <div class="page-backlinks">
                     <?php
-                    global $ID;
                     $renderInfo = [];
                     echo p_render('xhtml', p_get_instructions('{{backlinks>.}}'), $renderInfo);
                     ?>
                 </div>
-                <?php endif; ?>
-
                 <?php endif; ?>
 
                 <?php tpl_flush() ?>
