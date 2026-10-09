@@ -152,13 +152,15 @@ html[data-theme="dark"] .dokuwiki a.wikilink2.infinitepanels-open-page-link {
 }
 
 .infinitepanels-actions svg {
-    width: 1em;
-    height: 1em;
+    width: 14px;
+    height: 14px;
     fill: none;
     stroke: currentColor;
-    stroke-width: 2.1;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+}
+
+.infinitepanels-actions svg.phosphor-duotone {
+    fill: currentColor;
+    stroke: none;
 }
 
 .infinitepanels-actions button:hover,

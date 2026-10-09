@@ -246,9 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.setAttribute('aria-pressed', String(isZoomed));
         const icon = button.querySelector('svg');
         if (icon) {
-            icon.innerHTML = isZoomed
-                ? '<path d="M8 3v5H3M16 3v5h5M3 16h5v5M21 16h-5v5"></path>'
-                : '<path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"></path>';
+            icon.replaceWith(createPhosphorIcon(isZoomed ? 'arrows-in' : 'arrows-out'));
         }
     }
 
@@ -449,19 +447,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 name: 'edit',
                 label: 'Edit page',
                 selector: '.action.edit a, a[href*="do=edit"]',
-                icon: '<path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"></path>'
+                icon: 'pen-nib'
             },
             {
                 name: 'revisions',
                 label: 'Old revisions',
                 selector: 'a[href*="do=revisions"]',
-                icon: '<circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path>'
+                icon: 'clock-counter-clockwise'
             },
             {
                 name: 'rename',
                 label: 'Rename page',
                 selector: '.plugin_move_page a, a.plugin_move_page, a[href*="do=plugin_move"]',
-                icon: '<path d="m3 20 6-16h2l6 16M5.5 13h9"></path><path d="M21 7v10m-1.5-10h3m-3 10h3"></path>'
+                icon: 'cursor-text'
             }
         ];
 
@@ -536,7 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            link.appendChild(createPaneIcon(tool.icon));
+            link.appendChild(createPhosphorIcon(tool.icon));
             actions.appendChild(link);
         });
 
@@ -546,9 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
             openButton.className = 'infinitepanels-open';
             openButton.title = 'Open page by itself';
             openButton.setAttribute('aria-label', 'Open page by itself');
-            openButton.appendChild(createPaneIcon(
-                '<path d="M14 3h7v7"></path><path d="M21 3 10 14"></path><path d="M19 13v7H4V5h7"></path>'
-            ));
+            openButton.appendChild(createPhosphorIcon('arrow-square-out'));
             actions.appendChild(openButton);
         }
 
@@ -559,9 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
             zoomButton.title = 'Zoom pane';
             zoomButton.setAttribute('aria-label', 'Zoom pane');
             zoomButton.setAttribute('aria-pressed', 'false');
-            zoomButton.appendChild(createPaneIcon(
-                '<path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"></path>'
-            ));
+            zoomButton.appendChild(createPhosphorIcon('arrows-out'));
             actions.appendChild(zoomButton);
         }
 
@@ -573,9 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
             closeButton.className = 'infinitepanels-close';
             closeButton.title = 'Close this pane';
             closeButton.setAttribute('aria-label', 'Close this pane');
-            closeButton.appendChild(createPaneIcon(
-                '<path d="m18 6-12 12M6 6l12 12"></path>'
-            ));
+            closeButton.appendChild(createPhosphorIcon('trash'));
             actions.appendChild(closeButton);
         }
 
@@ -611,6 +603,26 @@ document.addEventListener('DOMContentLoaded', () => {
         icon.setAttribute('aria-hidden', 'true');
         icon.setAttribute('focusable', 'false');
         icon.innerHTML = paths;
+        return icon;
+    }
+
+    // Phosphor Icons Duotone SVG paths, from @phosphor-icons/core (MIT).
+    function createPhosphorIcon(name) {
+        const icons = {
+            'pen-nib': `<path d="M128,48,68.32,70.38a8,8,0,0,0-5.08,6.17L40,216l139.45-23.24a8,8,0,0,0,6.17-5.08L208,128Zm-4,104a20,20,0,1,1,20-20A20,20,0,0,1,124,152Z" opacity="0.2"/><path d="M248,92.68a15.86,15.86,0,0,0-4.69-11.31L174.63,12.68a16,16,0,0,0-22.63,0L123.57,41.11l-58,21.77A16.06,16.06,0,0,0,55.35,75.23L32.11,214.68A8,8,0,0,0,40,224a8.4,8.4,0,0,0,1.32-.11l139.44-23.24a16,16,0,0,0,12.35-10.17l21.77-58L243.31,104A15.87,15.87,0,0,0,248,92.68Zm-69.87,92.19L63.32,204l47.37-47.37a28,28,0,1,0-11.32-11.32L52,192.7,71.13,77.86,126,57.29,198.7,130ZM112,132a12,12,0,1,1,12,12A12,12,0,0,1,112,132Zm96-15.32L139.31,48l24-24L232,92.68Z"/>`,
+            'clock-counter-clockwise': `<path d="M216,128a88,88,0,1,1-88-88A88,88,0,0,1,216,128Z" opacity="0.2"/><path d="M136,80v43.47l36.12,21.67a8,8,0,0,1-8.24,13.72l-40-24A8,8,0,0,1,120,128V80a8,8,0,0,1,16,0Zm-8-48A95.44,95.44,0,0,0,60.08,60.15C52.81,67.51,46.35,74.59,40,82V64a8,8,0,0,0-16,0v40a8,8,0,0,0,8,8H72a8,8,0,0,0,0-16H49c7.15-8.42,14.27-16.35,22.39-24.57a80,80,0,1,1,1.66,114.75,8,8,0,1,0-11,11.64A96,96,0,1,0,128,32Z"/>`,
+            'cursor-text': `<path d="M176,48V208H160a32,32,0,0,1-32-32,32,32,0,0,1-32,32H80V48H96a32,32,0,0,1,32,32,32,32,0,0,1,32-32Z" opacity="0.2"/><path d="M184,208a8,8,0,0,1-8,8H160a40,40,0,0,1-32-16,40,40,0,0,1-32,16H80a8,8,0,0,1,0-16H96a24,24,0,0,0,24-24V136H104a8,8,0,0,1,0-16h16V80A24,24,0,0,0,96,56H80a8,8,0,0,1,0-16H96a40,40,0,0,1,32,16,40,40,0,0,1,32-16h16a8,8,0,0,1,0,16H160a24,24,0,0,0-24,24v40h16a8,8,0,0,1,0,16H136v40a24,24,0,0,0,24,24h16A8,8,0,0,1,184,208Z"/>`,
+            'arrow-square-out': `<path d="M184,80V208a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V80a8,8,0,0,1,8-8H176A8,8,0,0,1,184,80Z" opacity="0.2"/><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"/>`,
+            'arrows-out': `<path d="M208,48V208H48V48Z" opacity="0.2"/><path d="M216,48V96a8,8,0,0,1-16,0V67.31l-42.34,42.35a8,8,0,0,1-11.32-11.32L188.69,56H160a8,8,0,0,1,0-16h48A8,8,0,0,1,216,48ZM98.34,146.34,56,188.69V160a8,8,0,0,0-16,0v48a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16H67.31l42.35-42.34a8,8,0,0,0-11.32-11.32ZM208,152a8,8,0,0,0-8,8v28.69l-42.34-42.35a8,8,0,0,0-11.32,11.32L188.69,200H160a8,8,0,0,0,0,16h48a8,8,0,0,0,8-8V160A8,8,0,0,0,208,152ZM67.31,56H96a8,8,0,0,0,0-16H48a8,8,0,0,0-8,8V96a8,8,0,0,0,16,0V67.31l42.34,42.35a8,8,0,0,0,11.32-11.32Z"/>`,
+            'arrows-in': `<path d="M224,48V208a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32H208A16,16,0,0,1,224,48Z" opacity="0.2"/><path d="M144,104V64a8,8,0,0,1,16,0V84.69l42.34-42.35a8,8,0,0,1,11.32,11.32L171.31,96H192a8,8,0,0,1,0,16H152A8,8,0,0,1,144,104Zm-40,40H64a8,8,0,0,0,0,16H84.69L42.34,202.34a8,8,0,0,0,11.32,11.32L96,171.31V192a8,8,0,0,0,16,0V152A8,8,0,0,0,104,144Zm67.31,16H192a8,8,0,0,0,0-16H152a8,8,0,0,0-8,8v40a8,8,0,0,0,16,0V171.31l42.34,42.35a8,8,0,0,0,11.32-11.32ZM104,56a8,8,0,0,0-8,8V84.69L53.66,42.34A8,8,0,0,0,42.34,53.66L84.69,96H64a8,8,0,0,0,0,16h40a8,8,0,0,0,8-8V64A8,8,0,0,0,104,56Z"/>`,
+            'trash': `<path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56Z" opacity="0.2"/><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>`
+        };
+        const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        icon.setAttribute('viewBox', '0 0 256 256');
+        icon.setAttribute('aria-hidden', 'true');
+        icon.setAttribute('focusable', 'false');
+        icon.classList.add('phosphor-duotone');
+        icon.innerHTML = icons[name] || '';
         return icon;
     }
 
