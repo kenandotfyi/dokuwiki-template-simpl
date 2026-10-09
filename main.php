@@ -16,6 +16,7 @@ if (!is_numeric($paneWidth) || (float)$paneWidth < 25 || (float)$paneWidth > 100
     $paneWidth = 45;
 }
 $paneWidth = rtrim(rtrim(number_format((float)$paneWidth, 2, '.', ''), '0'), '.');
+$zoomPaneWidth = rtrim(rtrim(number_format((float)$paneWidth * 2, 2, '.', ''), '0'), '.');
 
 // Only load adapters that are both supported by Simpl and enabled in its configuration.
 $paneAdapters = ['preview', 'prettyphoto', 'annotations', 'katex'];
@@ -25,7 +26,7 @@ $paneAdapters = ['preview', 'prettyphoto', 'annotations', 'katex'];
     <meta charset="utf-8" />
     <title><?php tpl_pagetitle() ?> [<?php echo strip_tags($conf['title']) ?>]</title>
     <?php tpl_metaheaders() ?>
-    <style>:root{--infinitepanels-panel-width:<?php echo hsc($paneWidth); ?>rem;}</style>
+    <style>:root{--infinitepanels-panel-width:<?php echo hsc($paneWidth); ?>rem;--infinitepanels-zoom-width:<?php echo hsc($zoomPaneWidth); ?>rem;}</style>
     <link rel="stylesheet" href="<?php echo tpl_basedir(); ?>panes/panels.css" />
     <?php if ($panesEnabled) : ?>
     <script>window.InfinitePanelsConfig = <?php echo json_encode([
@@ -55,13 +56,13 @@ $paneAdapters = ['preview', 'prettyphoto', 'annotations', 'katex'];
             <main id="dokuwiki__content"><div class="pad group">
                 <?php html_msgarea() ?>
                 <?php tpl_includeFile('pageheader.php') ?>
-                <?php tpl_includeFile('pagedates.php') ?>
                 <?php tpl_includeFile('pagebreadcrumbs.php') ?>
                 <div class="page group">
                     <?php tpl_flush() ?>
                     <!-- wikipage start -->
                     <?php tpl_content() ?>
                     <!-- wikipage stop -->
+                    <?php tpl_includeFile('pagedates.php') ?>
                 </div>
 
                 <?php if ($ACT === 'show') : ?>

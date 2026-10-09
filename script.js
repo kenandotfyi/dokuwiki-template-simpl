@@ -74,11 +74,11 @@ jQuery(function(){
     });
 });
 
-// Start MoaiEditor automatically when the normal DokuWiki edit action opens.
-// MoaiEditor creates its own start button asynchronously once it has found
-// the template's editor elements, so wait for that button and invoke it.
-(function startMoaiEditorOnEditPage() {
-    if (typeof JSINFO === 'undefined' || JSINFO.ACT !== 'edit') return;
+// Start Moai automatically only when Simpl opens it inside the pane editor popup.
+// Ordinary DokuWiki edit pages keep the native editor unless the user starts Moai.
+(function startMoaiEditorInPanePopup() {
+    const isPanePopup = new URLSearchParams(window.location.search).get('simpl_moai_popup') === '1';
+    if (!isPanePopup || typeof JSINFO === 'undefined' || JSINFO.ACT !== 'edit') return;
 
     const startButton = document.getElementById('moaied-start-button');
     if (startButton) {

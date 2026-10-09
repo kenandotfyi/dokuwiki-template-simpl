@@ -42,6 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let viewport = null;
     let panes = null;
     let rootPane = null;
+    let zoomBackdrop = null;
+    let zoomPane = null;
+    let zoomPlaceholder = null;
+    let zoomTrigger = null;
+    let editBackdrop = null;
+    let editPane = null;
+    let editTrigger = null;
+    let editDirty = false;
     const paneElements = [];
     let desktopIndependentScroll = false;
     let navigationVersion = 0;
@@ -108,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function removePanelLayout() {
         if (!wrapper) return;
         viewport.scrollLeft = 0;
-        rootPane?.querySelectorAll('.infinitepanels-open, .infinitepanels-close').forEach((button) => button.remove());
+        rootPane?.querySelectorAll('.infinitepanels-open, .infinitepanels-close, .infinitepanels-zoom').forEach((button) => button.remove());
         content.insertBefore(pageContent, wrapper);
         wrapper.remove();
         wrapper = null;
@@ -215,6 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function deactivatePanelMode() {
         if (paneElements.length > 1 || !wrapper) return;
+        if (zoomBackdrop) closeZoomPane(false);
         const root = paneElements[0];
         const documentScroll = desktopIndependentScroll
             ? window.scrollY + root.getBoundingClientRect().top + root.scrollTop
@@ -225,6 +234,194 @@ document.addEventListener('DOMContentLoaded', () => {
             desktopIndependentScroll = false;
         }
         removePanelLayout();
+    }
+
+    function setZoomButtonState(pane, isZoomed) {
+        const button = pane?.querySelector('.infinitepanels-zoom');
+        if (!button) return;
+        const label = isZoomed ? 'Restore pane size' : 'Zoom pane';
+        button.title = label;
+        button.setAttribute('aria-label', label);
+        button.setAttribute('aria-pressed', String(isZoomed));
+        const icon = button.querySelector('svg');
+        if (icon) {
+            icon.innerHTML = isZoomed
+                ? '<path d="M8 3v5H3M16 3v5h5M3 16h5v5M21 16h-5v5"></path>'
+                : '<path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"></path>';
+        }
+    }
+
+    function closeZoomPane(restoreFocus = true) {
+        if (!zoomBackdrop) return;
+        const pane = zoomPane;
+        if (pane && zoomPlaceholder?.isConnected) zoomPlaceholder.before(pane);
+        zoomPlaceholder?.remove();
+        zoomBackdrop.remove();
+        document.body.classList.remove('infinitepanels-zoom-active');
+        setZoomButtonState(pane, false);
+        const trigger = zoomTrigger;
+        zoomBackdrop = null;
+        zoomPane = null;
+        zoomPlaceholder = null;
+        zoomTrigger = null;
+        if (restoreFocus && trigger?.isConnected) trigger.focus({ preventScroll: true });
+    }
+
+    function toggleZoomPane(pane, trigger) {
+        if (zoomPane === pane) {
+            closeZoomPane();
+            return;
+        }
+        if (zoomBackdrop) closeZoomPane(false);
+
+        zoomPlaceholder = document.createElement('div');
+        zoomPlaceholder.className = 'infinitepanels-pane-placeholder';
+        pane.before(zoomPlaceholder);
+
+        zoomBackdrop = document.createElement('div');
+        zoomBackdrop.className = 'infinitepanels-zoom-backdrop';
+        zoomBackdrop.setAttribute('role', 'dialog');
+        zoomBackdrop.setAttribute('aria-modal', 'true');
+        zoomBackdrop.setAttribute('aria-label', `Zoomed wiki page ${pane.dataset.pageId || ''}`);
+        zoomBackdrop.addEventListener('click', (event) => {
+            if (event.target === zoomBackdrop) closeZoomPane();
+        });
+        zoomPane = pane;
+        zoomTrigger = trigger;
+        content.appendChild(zoomBackdrop);
+        zoomBackdrop.appendChild(pane);
+        document.body.classList.add('infinitepanels-zoom-active');
+        setZoomButtonState(pane, true);
+    }
+
+    function closeNativeEdit(refreshPane = false) {
+        if (!editBackdrop) return true;
+        if (!refreshPane && editDirty && !window.confirm('Close the editor and discard unsaved changes?')) {
+            return false;
+        }
+        const pane = editPane;
+        const trigger = editTrigger;
+        editBackdrop.remove();
+        editBackdrop = null;
+        editPane = null;
+        editTrigger = null;
+        editDirty = false;
+        if (refreshPane && pane?.isConnected) {
+            if (pane.classList.contains('infinitepanels-pane')) {
+                const pageId = pane.dataset.pageId;
+                const pageUrl = pane.dataset.pageUrl || infinitePanelsUrlFromId(pageId);
+                loadPane(pane, pageUrl, pageId, navigationVersion).catch((error) => {
+                    console.error('infinitepanels: failed to refresh edited page', error);
+                });
+            } else {
+                window.location.reload();
+            }
+        }
+        if (!refreshPane && trigger?.isConnected) trigger.focus({ preventScroll: true });
+        return true;
+    }
+
+    function openNativeEdit(pane, pageId, trigger) {
+        if (!closeNativeEdit(false)) return;
+        editDirty = false;
+
+        const backdrop = document.createElement('div');
+        backdrop.className = 'infinitepanels-edit-backdrop';
+        backdrop.setAttribute('role', 'dialog');
+        backdrop.setAttribute('aria-modal', 'true');
+        backdrop.setAttribute('aria-label', `Edit wiki page ${pageId}`);
+        backdrop.addEventListener('click', (event) => {
+            if (event.target === backdrop) closeNativeEdit(false);
+        });
+
+        const windowElement = document.createElement('div');
+        windowElement.className = 'infinitepanels-edit-window';
+        const toolbar = document.createElement('div');
+        toolbar.className = 'infinitepanels-edit-toolbar';
+        const title = document.createElement('span');
+        title.textContent = `Edit ${pageId}`;
+        const toolbarActions = document.createElement('div');
+        toolbarActions.className = 'infinitepanels-edit-toolbar-actions';
+        const nativeEditLink = document.createElement('a');
+        nativeEditLink.className = 'infinitepanels-edit-toolbar-action infinitepanels-edit-new-tab';
+        nativeEditLink.title = 'Open native editor in a new tab';
+        nativeEditLink.setAttribute('aria-label', nativeEditLink.title);
+        nativeEditLink.target = '_blank';
+        nativeEditLink.rel = 'noopener';
+        const nativeEditUrl = new URL(DOKU_BASE + 'doku.php', window.location.origin);
+        nativeEditUrl.searchParams.set('do', 'edit');
+        nativeEditUrl.searchParams.set('id', pageId);
+        nativeEditLink.href = nativeEditUrl.href;
+        nativeEditLink.appendChild(createPaneIcon(
+            '<path d="M14 3h7v7"></path><path d="M21 3 10 14"></path><path d="M19 13v7H4V5h7"></path>'
+        ));
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = 'infinitepanels-edit-toolbar-action infinitepanels-edit-close';
+        closeButton.title = 'Close editor';
+        closeButton.setAttribute('aria-label', 'Close editor');
+        closeButton.appendChild(createPaneIcon('<path d="m18 6-12 12M6 6l12 12"></path>'));
+        closeButton.addEventListener('click', () => closeNativeEdit(false));
+        toolbarActions.append(nativeEditLink, closeButton);
+        toolbar.append(title, toolbarActions);
+
+        const frame = document.createElement('iframe');
+        frame.className = 'infinitepanels-edit-frame';
+        frame.title = `DokuWiki editor for ${pageId}`;
+        frame.addEventListener('load', () => {
+            if (editBackdrop !== backdrop) return;
+
+            try {
+                const frameWindow = frame.contentWindow;
+                const frameDocument = frame.contentDocument;
+                if (!frameWindow || !frameDocument) return;
+
+                if (frameDocument.querySelector('#dokuwiki__top.mode_show')) {
+                    closeNativeEdit(true);
+                    return;
+                }
+
+                const editForm = frameDocument.querySelector('#dw__editform');
+                if (editForm && !editForm.dataset.infinitePanelsDirtyTracking) {
+                    editForm.dataset.infinitePanelsDirtyTracking = 'true';
+                    const markDirty = () => { editDirty = true; };
+                    editForm.addEventListener('input', markDirty);
+                    editForm.addEventListener('change', markDirty);
+                }
+
+                // Keep the normal DokuWiki editor but use the popup's width
+                // instead of Simpl's usual narrow page column.
+                if (!frameDocument.getElementById('infinitepanels-editor-layout')) {
+                    const style = frameDocument.createElement('style');
+                    style.id = 'infinitepanels-editor-layout';
+                    style.textContent = `
+                        #dokuwiki__site { width: 100% !important; max-width: none !important; margin: 0 !important; }
+                        #dokuwiki__header, #dokuwiki__pagetools { display: none !important; }
+                        #dokuwiki__site > #dokuwiki__top > .wrapper { display: block !important; margin: 0 !important; }
+                        #dokuwiki__content { float: none !important; width: 100% !important; max-width: none !important; margin: 0 !important; }
+                        #dokuwiki__content > .pad.group { box-sizing: border-box !important; width: 100% !important; max-width: none !important; padding: 1rem !important; }
+                        #dokuwiki__content .page.group { width: 100% !important; max-width: none !important; }
+                    `;
+                    frameDocument.head.appendChild(style);
+                }
+            } catch (error) {
+                // The editor stays usable if the browser blocks frame access.
+                console.warn('infinitepanels: could not adjust editor popup layout', error);
+            }
+        });
+
+        const editUrl = new URL(DOKU_BASE + 'doku.php', window.location.origin);
+        editUrl.searchParams.set('do', 'edit');
+        editUrl.searchParams.set('id', pageId);
+        editUrl.searchParams.set('simpl_moai_popup', '1');
+        frame.src = editUrl.href;
+
+        windowElement.append(toolbar, frame);
+        backdrop.appendChild(windowElement);
+        document.body.appendChild(backdrop);
+        editBackdrop = backdrop;
+        editPane = pane;
+        editTrigger = trigger;
     }
 
     function addPaneControls(pane, pageId, parsedDocument, includePaneActions = true) {
@@ -266,9 +463,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const link = document.createElement('a');
             link.className = `infinitepanels-tool infinitepanels-tool-${tool.name}`;
-            link.href = tool.name === 'rename' ? pageUrl : new URL(sourceHref, pageUrl).href;
+            link.href = tool.name === 'rename'
+                ? pageUrl
+                : (tool.name === 'edit'
+                    ? `${DOKU_BASE}doku.php?do=edit&id=${encodeURIComponent(pageId)}`
+                    : new URL(sourceHref, pageUrl).href);
             link.title = tool.label;
             link.setAttribute('aria-label', tool.label);
+
+            if (tool.name === 'edit') {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    openNativeEdit(pane, pageId, link);
+                });
+            }
 
             if (tool.name === 'rename') {
                 link.addEventListener('click', (event) => {
@@ -332,6 +540,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 '<path d="M14 3h7v7"></path><path d="M21 3 10 14"></path><path d="M19 13v7H4V5h7"></path>'
             ));
             actions.appendChild(openButton);
+        }
+
+        if (includePaneActions && !actions.querySelector('.infinitepanels-zoom')) {
+            const zoomButton = document.createElement('button');
+            zoomButton.type = 'button';
+            zoomButton.className = 'infinitepanels-zoom';
+            zoomButton.title = 'Zoom pane';
+            zoomButton.setAttribute('aria-label', 'Zoom pane');
+            zoomButton.setAttribute('aria-pressed', 'false');
+            zoomButton.appendChild(createPaneIcon(
+                '<path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"></path>'
+            ));
+            actions.appendChild(zoomButton);
         }
 
         if (includePaneActions
@@ -468,6 +689,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function closeAfter(index, persistUrl = true) {
+        if (zoomPane && paneElements.indexOf(zoomPane) > index) closeZoomPane(false);
         while (paneElements.length > index + 1) {
             const removed = paneElements.pop();
             window.InfinitePanelsAdapters?.annotations?.destroy(removed);
@@ -535,12 +757,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const pane = button.closest('.infinitepanels-pane');
             const index = paneElements.indexOf(pane);
             if (button.matches('.infinitepanels-open')) {
+                if (zoomPane === pane) closeZoomPane(false);
                 window.location.href = pane.dataset.pageUrl
                     || infinitePanelsUrlFromId(pane.dataset.pageId);
                 return;
             }
+            if (button.matches('.infinitepanels-zoom')) {
+                toggleZoomPane(pane, button);
+                return;
+            }
             if (button.matches('.infinitepanels-close')) {
                 navigationVersion++;
+                if (zoomPane === pane) closeZoomPane(false);
                 closePane(index);
                 return;
             }
@@ -551,6 +779,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const sourcePane = anchor.closest('.infinitepanels-pane');
         const sourceIndex = sourcePane ? paneElements.indexOf(sourcePane) : (wrapper ? -1 : 0);
         if (sourceIndex < 0) return;
+        if (zoomPane === sourcePane) closeZoomPane(false);
         const targetPageId = pageIdForLink(anchor);
         const existingPageIndex = findOpenPageIndex(targetPageId);
         if (existingPageIndex >= 0) {

@@ -90,7 +90,7 @@ body.infinitepanels-ready #dokuwiki__pagetools {
 
 .dokuwiki a.wikilink1.infinitepanels-open-page-link,
 .dokuwiki a.wikilink2.infinitepanels-open-page-link {
-    background-color: lemonchiffon;
+    background-color: palegreen;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
 }
@@ -170,6 +170,142 @@ body.infinitepanels-active .infinitepanels-actions a:hover {
 
 .infinitepanels-error {
     padding: 1rem;
+}
+
+.infinitepanels-pane-placeholder {
+    flex: 0 0 auto;
+    width: var(--infinitepanels-panel-width, 50rem);
+    min-width: 0;
+    visibility: hidden;
+}
+
+.infinitepanels-zoom-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 2rem;
+    background: rgb(0 0 0 / 55%);
+}
+
+body.infinitepanels-zoom-active > div.plugin-preview {
+    z-index: 10001;
+}
+
+body.infinitepanels-zoom-active > div.pp_overlay {
+    z-index: 10001 !important;
+}
+
+body.infinitepanels-zoom-active > div.pp_pic_holder {
+    z-index: 10002 !important;
+}
+
+.infinitepanels-zoom-backdrop .infinitepanels-pane {
+    flex: 0 1 var(--infinitepanels-zoom-width, 100rem);
+    width: var(--infinitepanels-zoom-width, 100rem);
+    max-width: 100%;
+    height: auto;
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: 0 0 1.5rem rgb(0 0 0 / 35%);
+}
+
+.infinitepanels-edit-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 12000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 2rem;
+    background: rgb(0 0 0 / 55%);
+}
+
+.infinitepanels-edit-window {
+    display: flex;
+    flex-direction: column;
+    width: 92vw;
+    max-width: 1200px;
+    height: 92vh;
+    max-height: 92vh;
+    border: 1px solid #000;
+    background: #fff;
+    box-shadow: 0 0 1.5rem rgb(0 0 0 / 35%);
+}
+
+.infinitepanels-edit-toolbar {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 2.5rem;
+    padding: 0 0.75rem;
+    border-bottom: 1px solid #000;
+    color: #111;
+    background: #fff;
+    font-weight: 600;
+}
+
+.infinitepanels-edit-toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.infinitepanels-edit-toolbar-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+}
+
+.infinitepanels-edit-toolbar-action:hover,
+.infinitepanels-edit-toolbar-action:focus-visible {
+    color: #fff;
+    background: #000;
+    outline: none;
+}
+
+.infinitepanels-edit-toolbar-action svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.infinitepanels-edit-new-tab {
+    text-decoration: none;
+}
+
+.infinitepanels-edit-frame {
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0;
+    border: 0;
+    background: #fff;
+}
+
+body.infinitepanels-active .infinitepanels-zoom-backdrop .infinitepanels-pane {
+    flex: 0 1 var(--infinitepanels-zoom-width, 100rem);
+    width: var(--infinitepanels-zoom-width, 100rem);
+    max-width: 100%;
+    height: auto;
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: 0 0 1.5rem rgb(0 0 0 / 35%);
 }
 
 @media (min-width: 1200px) {
