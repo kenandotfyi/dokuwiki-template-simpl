@@ -451,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 name: 'rename',
                 label: 'Rename page',
                 selector: '.plugin_move_page a, a.plugin_move_page, a[href*="do=plugin_move"]',
-                icon: '<path d="M4 7h13l-3-3m3 3-3 3M20 17H7l3 3m-3-3 3-3"></path>'
+                icon: '<path d="m3 20 6-16h2l6 16M5.5 13h9"></path><path d="M21 7v10m-1.5-10h3m-3 10h3"></path>'
             }
         ];
 
@@ -834,6 +834,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', updatePaneHeight, { passive: true });
     window.addEventListener('popstate', restorePanesFromUrl);
     addPaneControls(pageContent, currentPageId, document, false);
+    window.InfinitePanelsAdapters?.preview?.initMainPage(pageContent);
     document.body.classList.add('infinitepanels-ready');
     refreshOpenPageLinks();
     restorePanesFromUrl();

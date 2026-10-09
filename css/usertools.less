@@ -34,6 +34,11 @@
 
 }
 
+/* This is a single-user wiki, so the profile update action is unnecessary. */
+.simpl-toolbar li.action.profile {
+    display: none;
+}
+
 [dir=rtl] #dokuwiki__usertools {
     text-align: left;
     left: 40px; // pagetool width
