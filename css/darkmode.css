@@ -1,0 +1,572 @@
+/* Dark theme overrides for Simpl and DokuWiki's shared page surfaces. */
+html[data-theme="dark"] {
+    color-scheme: dark;
+    background: #171b1f;
+    color: #d9e0e5;
+}
+
+html[data-theme="dark"] body,
+html[data-theme="dark"] #dokuwiki__site,
+html[data-theme="dark"] #dokuwiki__top,
+html[data-theme="dark"] #dokuwiki__content,
+html[data-theme="dark"] #dokuwiki__content > .pad,
+html[data-theme="dark"] #dokuwiki__detail,
+html[data-theme="dark"] #media__manager {
+    background: #171b1f;
+    color: #d9e0e5;
+}
+
+html[data-theme="dark"] #dokuwiki__header {
+    background: #171b1f;
+    color: #d9e0e5;
+}
+
+html[data-theme="dark"] #dokuwiki__header .logo a,
+html[data-theme="dark"] .simpl-toolbar a {
+    color: #edf2f5;
+}
+
+html[data-theme="dark"] .dokuwiki div.page,
+html[data-theme="dark"] .page-backlinks,
+html[data-theme="dark"] .page-nspages,
+html[data-theme="dark"] #dw__toc,
+html[data-theme="dark"] .dokuwiki div.breadcrumbs,
+html[data-theme="dark"] body > div.plugin-preview,
+html[data-theme="dark"] .infinitepanels-pane-toolbar,
+html[data-theme="dark"] #mediamgr__content,
+html[data-theme="dark"] #mediamgr__aside {
+    background: #20272d;
+    color: #d9e0e5;
+    border-color: #46515a;
+}
+
+html[data-theme="dark"] .dokuwiki a.wikilink1,
+html[data-theme="dark"] .dokuwiki a.wikilink2 {
+    color: #8fd3bd;
+}
+
+html[data-theme="dark"] .dokuwiki a.urlextern,
+html[data-theme="dark"] .dokuwiki a.interwiki {
+    color: #e6bd75;
+}
+
+html[data-theme="dark"] #dw__toc h3.toggle {
+    background: #35434c;
+    color: #f1f4f6;
+    border-bottom: 1px solid #586873;
+}
+
+html[data-theme="dark"] #dw__toc ul,
+html[data-theme="dark"] #dw__toc li,
+html[data-theme="dark"] #dw__toc li > .li {
+    background-color: transparent;
+    color: #d9e0e5;
+}
+
+html[data-theme="dark"] #dw__toc a {
+    background-color: transparent;
+    color: #8fd3bd;
+}
+
+html[data-theme="dark"] #dw__toc a:hover {
+    background-color: #d9e0e5 !important;
+    color: #171b1f !important;
+}
+
+html[data-theme="dark"] a:hover,
+html[data-theme="dark"] .dokuwiki a:hover {
+    background-color: #d9e0e5 !important;
+    color: #171b1f !important;
+}
+
+html[data-theme="dark"] .topBanner {
+    background: linear-gradient(to top, #172c2c, #536b75);
+    border-color: #53616a;
+}
+
+html[data-theme="dark"] .page-backlinks-header,
+html[data-theme="dark"] .page-nspages-header,
+html[data-theme="dark"] body > div.plugin-preview h2 {
+    background: #35434c;
+    color: #f1f4f6;
+    border-color: #586873;
+}
+
+html[data-theme="dark"] .pagedates,
+html[data-theme="dark"] hr,
+html[data-theme="dark"] .dokuwiki div.footnotes {
+    border-color: #53616a;
+}
+
+html[data-theme="dark"] .dokuwiki table,
+html[data-theme="dark"] .dokuwiki th,
+html[data-theme="dark"] .dokuwiki td,
+html[data-theme="dark"] .dokuwiki pre,
+html[data-theme="dark"] .dokuwiki code,
+html[data-theme="dark"] .dokuwiki blockquote,
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select,
+html[data-theme="dark"] button {
+    background-color: #252d33;
+    color: #d9e0e5;
+    border-color: #53616a;
+}
+
+html[data-theme="dark"] .dokuwiki th,
+html[data-theme="dark"] .dokuwiki tr:nth-child(even) td {
+    background-color: #2b343b;
+}
+
+html[data-theme="dark"] .dokuwiki .admonition,
+html[data-theme="dark"] .plugin_include_content {
+    background-color: #252d33;
+    color: #d9e0e5;
+    border-color: #53616a !important;
+}
+
+html[data-theme="dark"] .plugin_include_content::before {
+    color: #d6b879;
+}
+
+html[data-theme="dark"] #dokuwiki__pagetools:hover div.tools ul,
+html[data-theme="dark"] #dokuwiki__pagetools:focus-within div.tools ul {
+    background-color: #20272d;
+    border-color: #53616a;
+}
+
+html[data-theme="dark"] .dokuwiki ul,
+html[data-theme="dark"] .dokuwiki ol,
+html[data-theme="dark"] .dokuwiki li,
+html[data-theme="dark"] .dokuwiki li > .li,
+html[data-theme="dark"] .dokuwiki dl,
+html[data-theme="dark"] .dokuwiki dt,
+html[data-theme="dark"] .dokuwiki dd {
+    background-color: transparent;
+    color: #d9e0e5;
+}
+
+html[data-theme="dark"] .dokuwiki ul li::marker,
+html[data-theme="dark"] .dokuwiki ol li::marker {
+    color: #aab8c2;
+}
+
+/* MoaiEditor uses fixed light colors for its editor and preview panes. */
+html[data-theme="dark"] body.moaied,
+html[data-theme="dark"] #moaied__wrapper,
+html[data-theme="dark"] #moaied__editor,
+html[data-theme="dark"] #moaied__panes,
+html[data-theme="dark"] #moaied__panes > .pane,
+html[data-theme="dark"] #moaied__editor #dw__editform,
+html[data-theme="dark"] #moaied__preview,
+html[data-theme="dark"] #moaied__mirror {
+    background: #1b2228;
+    color: #d9e0e5;
+    border-color: #46515a;
+}
+
+html[data-theme="dark"] #moaied__editor #wiki__text,
+html[data-theme="dark"] #moaied__editor #edit__summary,
+html[data-theme="dark"] #moaied__toc select,
+html[data-theme="dark"] #moaied__toc select:active,
+html[data-theme="dark"] #moaied__toc select:focus,
+html[data-theme="dark"] #moaied__toc select:hover {
+    background: #202a32;
+    color: #e1e8ed;
+    border-color: #53616a;
+    caret-color: #e1e8ed;
+}
+
+html[data-theme="dark"] #moaied__editor .toolbutton {
+    background: #303b44;
+    color: #d9e0e5;
+    border-color: #586873;
+}
+
+html[data-theme="dark"] #moaied__editor .CodeMirror {
+    background: #1b2228;
+    color: #d9e0e5;
+    border-color: #53616a;
+}
+
+html[data-theme="dark"] #moaied__mirror .moaied-mirror-line {
+    color: #e1e8ed;
+}
+
+html[data-theme="dark"] #moaied__mirror .moaied-mirror-line-content {
+    color: inherit;
+}
+
+html[data-theme="dark"] #moaied__editor .CodeMirror-gutters,
+html[data-theme="dark"] #moaied__editor .CodeMirror-scrollbar-filler,
+html[data-theme="dark"] #moaied__editor .CodeMirror-gutter-filler {
+    background: #252e35;
+    border-color: #46515a;
+}
+
+html[data-theme="dark"] #moaied__editor .CodeMirror-linenumber,
+html[data-theme="dark"] #moaied__editor .CodeMirror-guttermarker,
+html[data-theme="dark"] #moaied__editor .CodeMirror-guttermarker-subtle {
+    color: #91a0aa;
+}
+
+html[data-theme="dark"] #moaied__editor .CodeMirror-cursor {
+    border-left-color: #edf2f5;
+}
+
+html[data-theme="dark"] #moaied__editor .CodeMirror-activeline-background {
+    background: #27343e;
+}
+
+html[data-theme="dark"] #moaied__editor .CodeMirror-selected,
+html[data-theme="dark"] #moaied__editor .CodeMirror-focused .CodeMirror-selected,
+html[data-theme="dark"] #moaied__editor .CodeMirror-line::selection,
+html[data-theme="dark"] #moaied__editor .CodeMirror-line > span::selection,
+html[data-theme="dark"] #moaied__editor .CodeMirror-line > span > span::selection {
+    background: #38516a;
+}
+
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-header,
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-def,
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-attribute,
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-link {
+    color: #91bdff;
+}
+
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-keyword,
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-builtin {
+    color: #d2a8ff;
+}
+
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-atom,
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-variable-2,
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-tag {
+    color: #79c0ff;
+}
+
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-number,
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-variable-3,
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-type,
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-quote {
+    color: #a5d6a7;
+}
+
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-string,
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-string-2 {
+    color: #ffa198;
+}
+
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-comment,
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-meta,
+html[data-theme="dark"] #moaied__editor .cm-s-default .cm-qualifier {
+    color: #a1aab2;
+}
+
+html[data-theme="dark"] #moaied__pageid,
+html[data-theme="dark"] #moaied__pageid span,
+html[data-theme="dark"] #moaied__docinfo,
+html[data-theme="dark"] #moaied__docinfo i,
+html[data-theme="dark"] #moaied__logo,
+html[data-theme="dark"] #moaied__autoscrolling_indicator svg {
+    color: #b7c3cb;
+}
+
+html[data-theme="dark"] #moaied__pageid a {
+    color: #91bdff;
+}
+
+html[data-theme="dark"] a.moaied-sidebutton,
+html[data-theme="dark"] .moaied-button.transparent,
+html[data-theme="dark"] button.moaied-button.transparent:active,
+html[data-theme="dark"] button.moaied-button.transparent:focus,
+html[data-theme="dark"] button.moaied-button.transparent:hover {
+    color: #c5d0d7 !important;
+}
+
+html[data-theme="dark"] a.moaied-sidebutton:hover {
+    color: #fff !important;
+    background: #35434c !important;
+}
+
+html[data-theme="dark"] .moaied-button.gray,
+html[data-theme="dark"] button.moaied-button.gray:active,
+html[data-theme="dark"] button.moaied-button.gray:focus,
+html[data-theme="dark"] button.moaied-button.gray:hover {
+    color: #edf2f5 !important;
+    background: #53616a !important;
+}
+
+html[data-theme="dark"] .moaied-syntax-header {
+    color: #9bc5ff;
+    background: #24394a;
+}
+
+html[data-theme="dark"] .moaied-syntax-header .moaied-syntax-inner,
+html[data-theme="dark"] .moaied-syntax-header.H5 .moaied-syntax-inner {
+    color: #a8ccff;
+}
+
+html[data-theme="dark"] .moaied-syntax-header.H1,
+html[data-theme="dark"] .moaied-syntax-header.H1 .moaied-syntax-inner {
+    color: #ff9b9b;
+}
+
+html[data-theme="dark"] .moaied-syntax-header.H1 {
+    background: #3b292d;
+}
+
+html[data-theme="dark"] .moaied-syntax-box {
+    color: #c5d0d7;
+    background: #303b44;
+    border-color: #53616a;
+}
+
+html[data-theme="dark"] .moaied-preview-header:hover {
+    background: #303b44;
+    outline-color: #657985;
+}
+
+html[data-theme="dark"] #moaied__phone_right_header_detachable {
+    background: #252e35;
+    color: #d9e0e5;
+}
+
+/* DokuWiki admin pages and configuration forms contain several fixed-light panels. */
+html[data-theme="dark"] #dokuwiki__top.mode_admin fieldset,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .level1,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .level2,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .ui-widget-content,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .ui-widget-header,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .ui-state-default,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .ui-menu,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .ui-tabs-nav {
+    background-color: #252d33;
+    color: #d9e0e5;
+    border-color: #53616a;
+}
+
+html[data-theme="dark"] #dokuwiki__top.mode_admin .ui-state-hover,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .ui-state-focus,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .ui-state-active {
+    background-color: #35434c;
+    color: #f1f4f6;
+    border-color: #657985;
+}
+
+html[data-theme="dark"] #dokuwiki__top.mode_admin input,
+html[data-theme="dark"] #dokuwiki__top.mode_admin select,
+html[data-theme="dark"] #dokuwiki__top.mode_admin textarea,
+html[data-theme="dark"] #dokuwiki__top.mode_admin button {
+    background-color: #202a32;
+    color: #e1e8ed;
+    border-color: #53616a;
+}
+
+html[data-theme="dark"] #confmanager div.level1,
+html[data-theme="dark"] #confmanager .formControl,
+html[data-theme="dark"] #confmanager .popup,
+html[data-theme="dark"] #confmanager .popupcontent {
+    background: #20272d;
+    color: #d9e0e5;
+    border-color: #53616a;
+    box-shadow: inset 0 0 0.5em #171b1f;
+}
+
+html[data-theme="dark"] #confmanager .popupheader {
+    background: #35434c;
+    color: #f1f4f6;
+}
+
+html[data-theme="dark"] #confmanager tr.overridden {
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        #303b44 10px,
+        #303b44 20px
+    );
+}
+
+html[data-theme="dark"] #confmanager .defaultValue,
+html[data-theme="dark"] #confmanager .overriddenValue,
+html[data-theme="dark"] #confmanager .heading_appendix,
+html[data-theme="dark"] #confmanager .hoverFeedback:hover {
+    color: #aebbc4;
+}
+
+html[data-theme="dark"] #confmanager .noscript {
+    background: #492d31;
+    color: #ffd9d9;
+    border-color: #b94b56;
+    box-shadow: inset 0 0 15px #492d31;
+}
+
+html[data-theme="dark"] #plugin__upgrade_meter ol {
+    background-color: #35434c;
+}
+
+html[data-theme="dark"] #plugin__upgrade_meter ol li .step {
+    background-color: #20272d;
+    color: #c2cdd5;
+    border-color: #35434c;
+}
+
+html[data-theme="dark"] #plugin__upgrade_meter ol li.active span.stage,
+html[data-theme="dark"] #plugin__upgrade_meter ol li.active span.step {
+    color: #f1f4f6;
+}
+
+html[data-theme="dark"] #plugin__upgrade_meter ol li.active span.step {
+    border-color: #8fd3bd;
+}
+
+html[data-theme="dark"] #dokuwiki__top.mode_admin .msg,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .info,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .success,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .notify {
+    color: #d9e0e5;
+}
+
+html[data-theme="dark"] #dokuwiki__top.mode_admin a,
+html[data-theme="dark"] #mediamanager__page a,
+html[data-theme="dark"] #media__manager a {
+    color: #91bdff;
+}
+
+html[data-theme="dark"] #dokuwiki__top.mode_admin .ui-admin svg,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .ui-admin svg path {
+    fill: #91bdff;
+}
+
+/* Fullscreen media manager and the media-selection popup. */
+html[data-theme="dark"] #mediamanager__page,
+html[data-theme="dark"] #mediamanager__page .panelHeader,
+html[data-theme="dark"] #mediamanager__page .panelContent,
+html[data-theme="dark"] #media__manager #media__tree,
+html[data-theme="dark"] #media__manager #media__content,
+html[data-theme="dark"] #media__manager #media__content .odd,
+html[data-theme="dark"] #media__manager #media__content .even {
+    background-color: #20272d;
+    color: #d9e0e5;
+    border-color: #46515a;
+}
+
+html[data-theme="dark"] #mediamanager__page .namespaces h2,
+html[data-theme="dark"] #mediamanager__page .namespaces .panelHeader,
+html[data-theme="dark"] #mediamanager__page .namespaces ul .selected {
+    background-color: #303b44;
+    color: #edf2f5;
+    border-color: #53616a;
+}
+
+html[data-theme="dark"] #mediamanager__page input,
+html[data-theme="dark"] #mediamanager__page select,
+html[data-theme="dark"] #mediamanager__page textarea,
+html[data-theme="dark"] #media__manager input,
+html[data-theme="dark"] #media__manager select,
+html[data-theme="dark"] #media__manager textarea {
+    background-color: #202a32;
+    color: #e1e8ed;
+    border-color: #53616a;
+}
+
+html[data-theme="dark"] #dokuwiki__top.mode_admin .tabs > ul,
+html[data-theme="dark"] #dokuwiki__top.mode_admin .tabs > ul li {
+    background-color: #20272d;
+    color: #d9e0e5;
+    border-color: #53616a;
+}
+
+html[data-theme="dark"] .dokuwiki .tabs > ul li a,
+html[data-theme="dark"] .dokuwiki ul.tabs li a,
+html[data-theme="dark"] .dokuwiki ul.tabs li strong {
+    background-color: #303b44;
+    color: #d9e0e5;
+    border-color: #53616a;
+}
+
+html[data-theme="dark"] .dokuwiki .tabs > ul li a:hover,
+html[data-theme="dark"] .dokuwiki .tabs > ul li a:focus,
+html[data-theme="dark"] .dokuwiki ul.tabs li a:hover,
+html[data-theme="dark"] .dokuwiki ul.tabs li a:focus,
+html[data-theme="dark"] .dokuwiki .tabs > ul .active a,
+html[data-theme="dark"] .dokuwiki ul.tabs li.active a {
+    background-color: #20272d;
+    color: #f1f4f6;
+    border-color: #657985;
+}
+
+/* Revision history and page-diff surfaces use fixed light colors in DokuWiki. */
+html[data-theme="dark"] .dokuwiki table.diff th,
+html[data-theme="dark"] .dokuwiki table.diff td {
+    background-color: #20272d;
+    color: #d9e0e5;
+    border-color: #46515a;
+}
+
+html[data-theme="dark"] .dokuwiki table.diff .diff-addedline {
+    background-color: #254735;
+    color: #e0f3e5;
+}
+
+html[data-theme="dark"] .dokuwiki table.diff .diff-deletedline {
+    background-color: #4b2c31;
+    color: #f7e1e3;
+}
+
+html[data-theme="dark"] .dokuwiki table.diff td.diff-context {
+    background-color: #303840;
+    color: #d9e0e5;
+}
+
+html[data-theme="dark"] .dokuwiki form.changes li .sizechange {
+    background-color: #35434c;
+    color: #d9e0e5;
+}
+
+html[data-theme="dark"] .dokuwiki form.changes li .sizechange.positive {
+    background-color: #254735;
+    color: #b9e7c4;
+}
+
+html[data-theme="dark"] .dokuwiki form.changes li .sizechange.negative {
+    background-color: #4b2c31;
+    color: #f2c4c8;
+}
+
+html[data-theme="dark"] div.picker,
+html[data-theme="dark"] #link__wiz_result,
+html[data-theme="dark"] #link__wiz_result div.even,
+html[data-theme="dark"] #link__wiz_result div.selected {
+    background-color: #20272d;
+    color: #d9e0e5;
+    border-color: #53616a;
+}
+
+/* The media manager has light file rows and metadata cards independent of its panels. */
+html[data-theme="dark"] #mediamanager__page .filelist .thumbs li,
+html[data-theme="dark"] #mediamanager__page .filelist .rows li,
+html[data-theme="dark"] #mediamanager__page .file dl dt,
+html[data-theme="dark"] #mediamanager__page .file dl dd,
+html[data-theme="dark"] #mediamanager__diff th,
+html[data-theme="dark"] #mediamanager__diff td {
+    background-color: #252d33;
+    color: #d9e0e5;
+    border-color: #46515a;
+}
+
+html[data-theme="dark"] #mediamanager__page .filelist .rows li:nth-child(2n+1),
+html[data-theme="dark"] #mediamanager__page .filelist .panelContent ul li:hover {
+    background-color: #303b44;
+}
+
+html[data-theme="dark"] .qq-upload-drop-area,
+html[data-theme="dark"] .qq-upload-drop-area-active {
+    background-color: #303b44;
+    color: #edf2f5;
+}
+
+html[data-theme="dark"] .qq-uploader .error {
+    background-color: #4b2c31;
+    color: #ffd9d9;
+}

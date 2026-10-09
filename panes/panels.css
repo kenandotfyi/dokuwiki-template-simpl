@@ -95,6 +95,11 @@ body.infinitepanels-ready #dokuwiki__pagetools {
     box-decoration-break: clone;
 }
 
+html[data-theme="dark"] .dokuwiki a.wikilink1.infinitepanels-open-page-link,
+html[data-theme="dark"] .dokuwiki a.wikilink2.infinitepanels-open-page-link {
+    background-color: #355b4a;
+}
+
 
 .infinitepanels-actions {
     display: flex;
@@ -134,7 +139,7 @@ body.infinitepanels-ready #dokuwiki__pagetools {
     align-items: center;
     justify-content: center;
     border: 0;
-    background: transparent;
+    background: transparent !important;
     cursor: pointer;
     color: inherit;
     font: inherit;
@@ -158,10 +163,12 @@ body.infinitepanels-ready #dokuwiki__pagetools {
 
 .infinitepanels-actions button:hover,
 .infinitepanels-actions a:hover {
-    background: white;
-    color: black;
+    background: white !important;
+    background-color: white !important;
+    color: black !important;
 }
 
+body.infinitepanels-active .infinitepanels-actions button:hover,
 body.infinitepanels-active .infinitepanels-actions a:hover {
     background: white !important;
     background-color: white !important;
@@ -210,7 +217,19 @@ body.infinitepanels-zoom-active > div.pp_pic_holder {
     height: auto;
     max-height: 90vh;
     overflow: auto;
-    box-shadow: 0 0 1.5rem rgb(0 0 0 / 35%);
+}
+
+.infinitepanels-zoom-backdrop .infinitepanels-popup-pane {
+    flex-basis: var(--infinitepanels-panel-width, 50rem);
+    width: var(--infinitepanels-panel-width, 50rem);
+}
+
+.infinitepanels-popup-pane .page-breadcrumbs {
+    display: none;
+}
+
+.infinitepanels-popup-pane .topBanner {
+    display: none;
 }
 
 .infinitepanels-edit-backdrop {
@@ -305,7 +324,11 @@ body.infinitepanels-active .infinitepanels-zoom-backdrop .infinitepanels-pane {
     height: auto;
     max-height: 90vh;
     overflow: auto;
-    box-shadow: 0 0 1.5rem rgb(0 0 0 / 35%);
+}
+
+body.infinitepanels-active .infinitepanels-zoom-backdrop .infinitepanels-popup-pane {
+    flex: 0 1 var(--infinitepanels-panel-width, 50rem);
+    width: var(--infinitepanels-panel-width, 50rem);
 }
 
 @media (min-width: 1200px) {

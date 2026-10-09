@@ -11,6 +11,7 @@
 if (!defined('DOKU_INC')) die(); /* must be run from within DokuWiki */
 
 $panesEnabled = ($ACT === 'show') && (bool) tpl_getConf('panes_enabled', 1);
+$darkModeEnabled = (bool) tpl_getConf('dark_mode', 1);
 $paneWidth = tpl_getConf('pane_width', 45);
 if (!is_numeric($paneWidth) || (float)$paneWidth < 25 || (float)$paneWidth > 100) {
     $paneWidth = 45;
@@ -25,6 +26,10 @@ $paneAdapters = ['preview', 'prettyphoto', 'annotations', 'katex'];
 <head>
     <meta charset="utf-8" />
     <title><?php tpl_pagetitle() ?> [<?php echo strip_tags($conf['title']) ?>]</title>
+    <script>window.SimplDarkModeConfig = { enabled: <?php echo $darkModeEnabled ? 'true' : 'false'; ?> };</script>
+    <?php if ($darkModeEnabled) : ?>
+    <script src="<?php echo tpl_basedir(); ?>darkmode.js"></script>
+    <?php endif; ?>
     <?php tpl_metaheaders() ?>
     <style>:root{--infinitepanels-panel-width:<?php echo hsc($paneWidth); ?>rem;--infinitepanels-zoom-width:<?php echo hsc($zoomPaneWidth); ?>rem;}</style>
     <link rel="stylesheet" href="<?php echo tpl_basedir(); ?>panes/panels.css" />

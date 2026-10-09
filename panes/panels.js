@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let zoomPane = null;
     let zoomPlaceholder = null;
     let zoomTrigger = null;
+    let zoomTemporaryPane = false;
     let editBackdrop = null;
     let editPane = null;
     let editTrigger = null;
@@ -254,7 +255,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeZoomPane(restoreFocus = true) {
         if (!zoomBackdrop) return;
         const pane = zoomPane;
-        if (pane && zoomPlaceholder?.isConnected) zoomPlaceholder.before(pane);
+        if (pane && zoomTemporaryPane) {
+            window.InfinitePanelsAdapters?.annotations?.destroy(pane);
+            pane.remove();
+        } else if (pane && zoomPlaceholder?.isConnected) {
+            zoomPlaceholder.before(pane);
+        }
         zoomPlaceholder?.remove();
         zoomBackdrop.remove();
         document.body.classList.remove('infinitepanels-zoom-active');
@@ -264,19 +270,22 @@ document.addEventListener('DOMContentLoaded', () => {
         zoomPane = null;
         zoomPlaceholder = null;
         zoomTrigger = null;
+        zoomTemporaryPane = false;
         if (restoreFocus && trigger?.isConnected) trigger.focus({ preventScroll: true });
     }
 
-    function toggleZoomPane(pane, trigger) {
+    function toggleZoomPane(pane, trigger, temporary = false) {
         if (zoomPane === pane) {
             closeZoomPane();
             return;
         }
         if (zoomBackdrop) closeZoomPane(false);
 
-        zoomPlaceholder = document.createElement('div');
-        zoomPlaceholder.className = 'infinitepanels-pane-placeholder';
-        pane.before(zoomPlaceholder);
+        if (!temporary) {
+            zoomPlaceholder = document.createElement('div');
+            zoomPlaceholder.className = 'infinitepanels-pane-placeholder';
+            pane.before(zoomPlaceholder);
+        }
 
         zoomBackdrop = document.createElement('div');
         zoomBackdrop.className = 'infinitepanels-zoom-backdrop';
@@ -288,6 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         zoomPane = pane;
         zoomTrigger = trigger;
+        zoomTemporaryPane = temporary;
         content.appendChild(zoomBackdrop);
         zoomBackdrop.appendChild(pane);
         document.body.classList.add('infinitepanels-zoom-active');
@@ -688,6 +698,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    async function openTagCloudPopup(anchor) {
+        const pageId = pageIdForLink(anchor);
+        if (!pageId) return;
+
+        const pane = document.createElement('section');
+        pane.className = 'infinitepanels-pane infinitepanels-pane-secondary infinitepanels-popup-pane';
+        pane.dataset.pageId = pageId;
+        pane.innerHTML = '<p class="infinitepanels-loading">Loading…</p>';
+        const expectedVersion = ++navigationVersion;
+        toggleZoomPane(pane, anchor, true);
+
+        try {
+            const loaded = await loadPane(pane, anchor.href, pageId, expectedVersion);
+            if (loaded && zoomPane === pane) setZoomButtonState(pane, true);
+        } catch (error) {
+            if (!pane.isConnected) return;
+            pane.innerHTML = '<p class="infinitepanels-error">Could not load this page.</p>';
+            console.error('infinitepanels: failed to load tag page popup', error);
+        }
+    }
+
     function closeAfter(index, persistUrl = true) {
         if (zoomPane && paneElements.indexOf(zoomPane) > index) closeZoomPane(false);
         while (paneElements.length > index + 1) {
@@ -768,13 +799,35 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (button.matches('.infinitepanels-close')) {
                 navigationVersion++;
-                if (zoomPane === pane) closeZoomPane(false);
+                if (zoomPane === pane) {
+                    closeZoomPane(false);
+                    return;
+                }
                 closePane(index);
                 return;
             }
         }
 
         const anchor = event.target.closest('a');
+        const isCloudTag = anchor?.closest('.cloud') && anchor.matches('a[class*="_tag"]');
+        const isPageTag = anchor?.relList.contains('tag');
+        if ((isCloudTag || isPageTag)
+            && event.button === 0
+            && !event.metaKey
+            && !event.ctrlKey
+            && !event.altKey
+            && !event.shiftKey
+            && !anchor.target) {
+            try {
+                if (new URL(anchor.href, window.location.href).origin === window.location.origin) {
+                    event.preventDefault();
+                    openTagCloudPopup(anchor);
+                    return;
+                }
+            } catch (_error) {
+                // Let malformed or non-web tag links follow their normal behavior.
+            }
+        }
         if (!anchor || !isEligibleLink(anchor)) return;
         const sourcePane = anchor.closest('.infinitepanels-pane');
         const sourceIndex = sourcePane ? paneElements.indexOf(sourcePane) : (wrapper ? -1 : 0);

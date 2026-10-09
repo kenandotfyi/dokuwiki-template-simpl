@@ -155,11 +155,14 @@ html, body {
     display: flex;
     font-family: 'JetBrains Mono Variable', monospace;
     justify-content: space-between;
-    background: grey;
-    border: 1px solid black;
+    line-height: 1.4;
+    background: linear-gradient(to top, darkslategray, #708090);
+    border-top: 1px solid #323A41;
+    border-bottom: 1px solid #323A41;
     color: white;
-    padding-left: 6px;
     padding-right: 4px;
+    padding-left: 4px;
+    padding-bottom: 2px;
     position: sticky;
     top: 29px;
     z-index: 110;
@@ -226,9 +229,6 @@ html, body {
 
 .dokuwiki div.page {
   box-shadow: none;
-  border-left: 1px solid lightgrey;
-  border-right: 1px solid lightgrey;
-  border-bottom: 1px solid lightgrey;
   border-radius: 0px;
   margin-bottom: 5px;
   padding: 16px;
@@ -282,11 +282,11 @@ a:hover{
 }
 
 a.urlextern {
-    color: #71C671;
+    color: darkgoldenrod;
 }
 
 a.urlextern::after {
-    content: " ●";
+    content: " ↗";
 }
 
 .dokuwiki div.footnotes {
@@ -408,7 +408,7 @@ hr {
 .page-backlinks,
 .page-nspages {
     background-color: white;
-    border: 1px solid lightgrey;
+    border: 1px solid #EEE;
     padding: 10px;
     margin-bottom: 5px;
 
@@ -437,7 +437,6 @@ hr {
     border: 1px solid black;
     background: grey;
     color: white;
-    line-height: 1.2;
     padding: 0px;
     padding-left: 10px;
 }
@@ -448,10 +447,13 @@ hr {
     font-family: 'JetBrains Mono Variable', monospace;
     border-top: none !important;
     margin-bottom: 0;
-    border-left: 1px solid black;
     border-bottom: 1px dashed black;
-    border-right: 1px solid black;
+    border-left: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
     background: gainsboro;
+    font-style: italic;
+    font-size: 12px;
+
 }
 
 .dokuwiki div.breadcrumbs .trace,
@@ -521,4 +523,9 @@ body > div.plugin-preview {
     font-size: 1.3rem !important;
     line-height: 1.2;
     text-indent: 0;
+}
+
+/* tables for pagelist etc to have 100% widht */
+.dokuwiki div.table table {
+	width: 100%;
 }

@@ -10,6 +10,7 @@
 // must be run from within DokuWiki
 if (!defined('DOKU_INC')) die();
 
+$darkModeEnabled = (bool) tpl_getConf('dark_mode', 1);
 ?><!DOCTYPE html>
 <html lang="<?php echo $conf['lang']?>" dir="<?php echo $lang['direction'] ?>" class="popup no-js">
 <head>
@@ -18,6 +19,10 @@ if (!defined('DOKU_INC')) die();
         <?php echo hsc($lang['mediaselect'])?>
         [<?php echo strip_tags($conf['title'])?>]
     </title>
+    <script>window.SimplDarkModeConfig = { enabled: <?php echo $darkModeEnabled ? 'true' : 'false'; ?> };</script>
+    <?php if ($darkModeEnabled) : ?>
+    <script src="<?php echo tpl_basedir(); ?>darkmode.js"></script>
+    <?php endif; ?>
     <?php tpl_metaheaders()?>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <?php echo tpl_favicon(['favicon', 'mobile']) ?>
